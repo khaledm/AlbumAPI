@@ -36,6 +36,14 @@ app.MapGet("/albums", () =>
 })
 .WithName("GetAlbums");
 
+app.UseExceptionHandler(exceptionHandlerApp 
+    => exceptionHandlerApp.Run(async context 
+        => await Results.Problem()
+                     .ExecuteAsync(context)));
+
+app.Map("/exception", () 
+    => { throw new InvalidOperationException("Sample Exception"); });
+
 app.Run();
 
 record Album(int Id, string Title, string Artist, double Price, string Image_url)
